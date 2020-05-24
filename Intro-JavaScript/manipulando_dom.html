@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manipulando a DOM</title>
+    <style>
+        div{
+            margin: 10px;
+            display: inline-block;
+        }
+        div#main,
+        div#vetores,
+        button.btn-square{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id='vetores'>
+        <input type="text" name="nome">
+        <button onClick="adicionar()">Adicionar</button>
+        <ul>
+        </ul>
+    </div>
+
+    <div id="main">
+        <button class="btn-square">Novo Quadrado!</button>
+    </div>
+
+
+    <script>
+        // Exercício 1 e 2
+        var btn = document.querySelector('div button.btn-square');
+        var divContainer = document.querySelector('div#main');
+        var allSquares = document.querySelectorAll('div');
+
+        btn.onclick = function (){
+            var square = document.createElement('div');
+            square.style.width = '100px';
+            square.style.height = '100px';
+            square.style.backgroundColor = '#f0f';
+            square.classList.add('change-bg');
+            square.onmouseover = function(){
+                square.style.backgroundColor= (getRandomColor());
+            };
+
+            divContainer.appendChild(square);
+        };
+
+        function getRandomColor() {  
+            var letters = "0123456789ABCDEF";  
+            var color = "#";  
+            for (var i = 0; i < 6; i++) {    
+                    color += letters[Math.floor(Math.random() * 16)];  
+                }  
+            return color;
+        }
+       
+        // Exercício 3 e 4
+
+        var nomes = ["Diego", "Gabriel", "Lucas"];
+        var listaNomes = document.querySelector('div#vetores ul');
+        var inputValue = document.querySelector('div input');
+
+        for(var i = 0; i < nomes.length; i++){
+            addListName('li', nomes[i], listaNomes)
+        }
+
+        function adicionar(){
+            addListName('li', inputValue.value, listaNomes);
+            inputValue.value = '';
+        }
+
+        // Cria dinamicamente um nome para a lista, passando como parâmetro a tag HTML, texto e a div pai
+        function addListName(tagElement, name, parent){
+            var newElement = document.createElement(tagElement);
+            newElement.innerText = name;
+            parent.appendChild(newElement)
+        }
+
+
+    </script>
+</body>
+</html>
