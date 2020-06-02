@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promises</title>
+</head>
+<body>
+    <div id='app'>
+        <input type="text" name="user">
+        <button onclick="requestApi()">Adicionar</button>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        // Exercício 1
+        function checaIdade(idade) {  
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    idade >= 18 ? resolve() : reject();
+                }, 2000);
+            });
+        }
+        
+        
+        checaIdade(11)  
+        .then(function() {    
+            console.log("Maior que 18");  
+        })  
+        .catch(function() {    
+            console.log("Menor que 18");  
+        })
+
+
+
+
+
+        // Exercício 2
+        var inputElement = document.querySelector('input');
+        var mainDiv = document.querySelector('div');
+        function requestApi(){
+            loader(1);
+            axios.get('https://api.github.com/users/' + String(inputElement.value) + '/repos')
+            .then(function(response){
+                loader(0);
+                listaRepositorio(response.data);
+            })
+            .catch(function(error) {
+                alert('Usuário não encontrado!  ' + error);
+            })
+        }
+        
+        function listaRepositorio(repos){
+            var novaLista = document.createElement('ul');
+            repos.forEach(repo => {
+                var novoItem = document.createElement('li');
+                var itemText = document.createTextNode(repo.name);
+                novoItem.appendChild(itemText);
+                novaLista.appendChild(novoItem);
+            });
+            mainDiv.appendChild(novaLista);
+        }
+
+        function loader(status){
+            status ? listaRepositorio(['carregando']) : console.log('terminou');
+        }
+
+    </script>
+</body>
+</html>
